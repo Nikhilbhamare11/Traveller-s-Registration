@@ -4,8 +4,8 @@ if(isset($_POST['name'])){
 $server = "localhost";
 $username = "root";
 $password = "";
-
-$con = mysqli_connect($server, $username, $password);
+$database = "travel_site";
+$con = mysqli_connect($server, $username, $password,$database);
 
 if(!$con){
     die("Connection to this database failed due to ".mysqli_connect_error());
@@ -17,12 +17,15 @@ $age = $_POST['age'];
 $gender = $_POST['gender'];
 $email = $_POST['email'];
 $phone = $_POST['phone'];
+$from = $_POST['from'];
+$to = $_POST['to'];
 $date = $_POST['date'];
 $time = $_POST['time'];
 $desc = $_POST['desc'];
+$desc1 = $_POST['desc1'];
 
-$sql = "INSERT INTO `Travel_Site`.`trip` (`name`, `age`, `gender`, `email`, `phone`, `date`, `time`, `other`, `dt`)
-VALUES ('$name', '$age', '$gender', '$email', '$phone', '$date', '$time','$desc', current_timestamp());";
+$sql = "INSERT INTO `trip` (`name`, `age`, `gender`, `email`, `phone`, `startingl`, `dest`, `date`, `time`, `desc1`, `desc2`, `dt`)
+VALUES ('$name', '$age', '$gender', '$email', '$phone', '$from', '$to', '$date', '$time', '$desc', '$desc1', current_timestamp())";
 
 // echo $sql;
 
@@ -43,36 +46,120 @@ $con->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <title>Travel Website</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Sriracha&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <img class="bg" src="img.jpg" alt="Travel Places">
-    <div class="container">
+    <div class="container mt-4">
         <h1>Welcome to Traveller Registration Website</h1>
         <p>Enter your details and submit this form to confirm your booking in the trip</p>
         <?php
         if ($insert == true) {
-            echo "<p class='submitMsg'>Thanks for submitting your form. Vist again for planning next trip !!</p>";
+            echo '<div class="position-relative alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success!</strong> Your form is submitted.  Vist again for planning next trip !!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
         }
         ?>
-
-        <form action="index.php" method="post">
-            <input type="text" name="name" id="name" placeholder="Enter your Name">
-            <input type="text" name="age" id="age" placeholder="Enter your Age">
-            <input type="text" name="gender" id="gender" placeholder="Enter your Gender">
-            <input type="email" name="email" id="email" placeholder="Enter your Email">
-            <input type="phone" name="phone" id="phone" placeholder="Enter your Phone">
-            <input type="text" name="date" id="date" placeholder="Enter the PickUp Date" onfocus="(this.type='date')">
-            <input type="text" name="time" id="time" placeholder="Enter the PickUp Time" onfocus="(this.type='time')">
-            <textarea name="desc" id="desc" cols="30" rows="10"
-                placeholder="Enter PickUp point location information here..."></textarea>
-            <button class="btn">Sumbit</button>
-        </form>
-
     </div>
-    <script src="index.js"></script>
+
+    <div class="container py-2 my-4 text-center" id="cont">
+        <form action="index.php" method="post">
+            <h1 class="my4 py-2">Registration Form</h1>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your Name" required>
+                <label for="floatingInput">Enter your Full Name</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="age" name="age" placeholder="Enter your Age">
+                <label for="floatingInput">Enter your Age</label>
+            </div>
+
+            <div class="container-fluid border border-light-subtle rounded my-3 py-3 bg-white">
+                <div class="row">
+                    <div class="col-auto">
+                        <label for="MyGender">Gender :</label>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input border border-black" name="gender"
+                                id="genderMale" value="Male">
+                            <label class="form-check-label" for="genderMale">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input border border-black" name="gender"
+                                id="genderFemale" value="Female">
+                            <label class="form-check-label" for="genderFemale">Female</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input border border-black" name="gender"
+                                id="genderOther" value="Other">
+                            <label class="form-check-label" for="genderOther">Other</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email"
+                    >
+                <label for="floatingInput">Enter your Email</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="phone" class="form-control" id="phone" name="phone" placeholder="Enter your Phone"
+                    required>
+                <label for="floatingInput">Enter your Phone</label>
+            </div>
+            <div class="dropdowns">
+                <div class="from mb-3">
+                    <div class="form-floating">
+                        <select class="form-select" id="floatingSelect" name="from" aria-label="Floating label select example" required>
+                            <option selected>Select your starting point here</option>
+                        </select>
+                        <label for="floatingSelect">Enter your Starting Location</label>
+                    </div>
+                </div>
+                <div class="to mb-3">
+                    <div class="form-floating">
+                        <select class="form-select" id="floatingSelect" name="to" aria-label="Floating label select example" required>
+                            <option selected>Select your destination point here</option>
+                        </select>
+                        <label for="floatingSelect">Enter your Destination</label>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="date" class="form-control" id="date" name="date"
+                                placeholder="Enter the PickUp Date" required>
+                            <label for="date">Enter the PickUp Date</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="time" class="form-control" id="time" name="time"
+                                placeholder="Enter the PickUp Time" required>
+                            <label for="time">Enter the PickUp Time</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-floating my-3">
+                <textarea class="form-control" placeholder="Leave a comment here" id="desc" name="desc"></textarea>
+                <label for="floatingTextarea">Enter PickUp point location info here...</label>
+            </div>
+            <div class="form-floating my-3">
+                <textarea class="form-control" placeholder="Leave a comment here" id="desc1" name="desc1"></textarea>
+                <label for="floatingTextarea">Enter Dropping point location info here...</label>
+            </div>
+            <button class="btn btn-success my-2" type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
