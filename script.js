@@ -5,8 +5,10 @@ document.getElementById('age').addEventListener('input', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  const cities = ["Mumbai", "Pune", "Delhi", "Chennai", "Kolkata", "Hyderabad", "Ahmedabad", "Jaipur", "Lucknow",
-    "Bengaluru(Bangalore)", "Surat", "Kanpur", "Nagpur", "Indore", "Thane", "Bhopal", "Visakhapatnam", "Pimpri-Chinchwad", "Patna"];
+  const cities = ["Agra", "Ahmedabad", "Ajmer", "Amritsar", "Bengaluru (Bangalore)", "Bhopal", "Chennai",
+    "Coorg (Kodagu)", "Darjeeling", "Delhi", "Goa", "Hyderabad", "Indore", "Jaipur", "Jaisalmer", "Kanpur",
+    "Kochi", "Kolkata", "Kanyakumari", "Leh-Ladakh", "Lucknow", "Mahabalipuram", "Mumbai", "Mysore", "Nagpur", "Patna",
+    "Pondicherry (Puducherry)", "Pimpri-Chinchwad", "Rajkot", "Rishikesh", "Shimla", "Surat", "Thane", "Udaipur", "Varanasi", "Visakhapatnam"];
   const dropdowns = document.querySelectorAll('select');
   const fromSelect = document.querySelector('select[name="from"]');
   const toSelect = document.querySelector('select[name="to"]');
