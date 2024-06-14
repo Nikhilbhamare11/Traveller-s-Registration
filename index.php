@@ -76,7 +76,6 @@ $con->close();
                 <input type="number" class="form-control" id="age" name="age" placeholder="Enter your Age">
                 <label for="floatingInput">Enter your Age</label>
             </div>
-
             <div class="container-fluid border border-light-subtle rounded my-3 py-3 bg-white">
                 <div class="row">
                     <div class="col-auto">
