@@ -2,10 +2,12 @@
     margin: 0;
     padding: 0;
 }
+
 body{
     background: url('bg.png');
     background-size: cover;
 }
+
 h1,p{
     text-align: center;
     font-family: 'Sriracha', cursive;
