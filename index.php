@@ -5,12 +5,53 @@ $server = "localhost";
 $username = "root";
 $password = "";
 $database = "travel_site";
-$con = mysqli_connect($server, $username, $password,$database);
+$conn = mysqli_connect($server, $username, $password);
 
-if(!$con){
+if(!$conn){
     die("Connection to this database failed due to ".mysqli_connect_error());
 }
-// echo"Success Connecting to the db";
+else{
+    // echo"Success Connecting to the db";
+}
+
+// SQL query to create the database if it doesn't exist
+$sql = "CREATE DATABASE IF NOT EXISTS `$database`";
+
+// Execute the query to create the database
+if (mysqli_query($conn, $sql)) {
+    // echo "Database '$database' created successfully or already exists.<br>";
+
+    // Select the database
+    if (!mysqli_select_db($conn, $database)) {
+        die("Error selecting database: " . mysqli_error($conn));
+    }
+
+}
+else {
+    echo "Error creating database: " . mysqli_error($conn);
+}
+// SQL query to create the 'trip' table if it doesn't exist
+$sql = "CREATE TABLE IF NOT EXISTS `trip` (
+    `sno` INT(8) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
+    `age` INT(3) NOT NULL,
+    `gender` VARCHAR(10) NOT NULL,
+    `email` VARCHAR(255) NOT NULL,
+    `phone` INT(15) NOT NULL,
+    `startingl` VARCHAR(255) NOT NULL,
+    `dest` VARCHAR(255) NOT NULL,
+    `date` DATE NOT NULL,
+    `time` TIME NOT NULL,
+    `desc1` TEXT NOT NULL,
+    `desc2` TEXT NOT NULL,
+    `dt` DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL )";
+
+// Execute the query
+if (mysqli_query($conn, $sql)) {
+    // echo "Table 'threads' created successfully or already exists.<br>";
+} else {
+    echo "Error creating table: " . mysqli_error($conn);
+}
 
 $name = $_POST['name'];
 $age = $_POST['age'];
@@ -29,14 +70,14 @@ VALUES ('$name', '$age', '$gender', '$email', '$phone', '$from', '$to', '$date',
 
 // echo $sql;
 
-if ($con->query($sql) == true) {
+if ($conn->query($sql) == true) {
     // echo "Successfully Inserted";
     $insert = true;
 } else {
-    echo "ERROR: $sql <br> $con->error";
+    echo "ERROR: $sql <br> $conn->error";
 }
 
-$con->close();
+$conn->close();
 }
 ?>
 
@@ -76,6 +117,7 @@ $con->close();
                 <input type="number" class="form-control" id="age" name="age" placeholder="Enter your Age">
                 <label for="floatingInput">Enter your Age</label>
             </div>
+
             <div class="container-fluid border border-light-subtle rounded my-3 py-3 bg-white">
                 <div class="row">
                     <div class="col-auto">
@@ -114,7 +156,7 @@ $con->close();
                 <div class="from mb-3">
                     <div class="form-floating">
                         <select class="form-select" id="floatingSelect" name="from" aria-label="Floating label select example" required>
-                            <option selected>Select your starting point here</option>
+                            <option selected>Select Your Starting Point Here</option>
                         </select>
                         <label for="floatingSelect">Enter your Starting Location</label>
                     </div>
@@ -122,9 +164,9 @@ $con->close();
                 <div class="to mb-3">
                     <div class="form-floating">
                         <select class="form-select" id="floatingSelect" name="to" aria-label="Floating label select example" required>
-                            <option selected>Select your destination point here</option>
+                            <option selected>Select Your Destination Point Here</option>
                         </select>
-                        <label for="floatingSelect">Enter your Destination</label>
+                        <label for="floatingSelect">Enter Your Destination Location</label>
                     </div>
                 </div>
             </div>
@@ -147,11 +189,11 @@ $con->close();
                 </div>
             </div>
             <div class="form-floating my-3">
-                <textarea class="form-control" placeholder="Leave a comment here" id="desc" name="desc"></textarea>
+                <textarea class="form-control" placeholder="Leave a PickUp point Location here" id="desc" name="desc"></textarea>
                 <label for="floatingTextarea">Enter PickUp point location info here...</label>
             </div>
             <div class="form-floating my-3">
-                <textarea class="form-control" placeholder="Leave a comment here" id="desc1" name="desc1"></textarea>
+                <textarea class="form-control" placeholder="Leave a Dropping point Location here" id="desc1" name="desc1"></textarea>
                 <label for="floatingTextarea">Enter Dropping point location info here...</label>
             </div>
             <button class="btn btn-success my-2" type="submit">Submit</button>
