@@ -25,7 +25,6 @@ if (mysqli_query($conn, $sql)) {
     if (!mysqli_select_db($conn, $database)) {
         die("Error selecting database: " . mysqli_error($conn));
     }
-
 }
 else {
     echo "Error creating database: " . mysqli_error($conn);
